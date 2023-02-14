@@ -12,7 +12,7 @@ const Activation = () => {
                 <a href={'https://accounts.ukr.net/login'}
                    target={'_blank'}
                    className={'btn btn--primary activation__email'}
-                >Urk.net</a>
+                >Ukr.net</a>
             </div>
         </div>
     );
