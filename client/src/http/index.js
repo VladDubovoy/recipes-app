@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 
-export const API_URL = 'https://recipes-app-n22i.onrender.com/api';
+export const API_URL = 'http://localhost:3000/api';
 
 const $api = axios.create({
     withCredentials: true,
