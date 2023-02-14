@@ -1,0 +1,24 @@
+.recipe-list {
+    border-right: 1px solid var(--black);
+    min-height: 100vh;
+    width: 50%;
+    padding: 20px 20px 40px 20px;
+}
+
+.wrapper.dark .recipe-list {
+    border-right: 1px solid var(--white);
+}
+
+@media screen and (max-width: 768px) {
+    .recipe-list {
+        flex: 1 1 auto;
+        position: relative;
+        z-index: 1;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .recipe-list {
+       padding: 10px 10px 20px 10px;
+    }
+}

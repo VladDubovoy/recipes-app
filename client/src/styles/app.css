@@ -1,0 +1,40 @@
+@import 'font.css';
+@import 'buttons.css';
+@import 'recipe-list.css';
+@import 'ingredient-list.css';
+@import 'recipe.css';
+@import 'recipe-edit.css';
+@import 'search-bar.css';
+@import 'auth-form.css';
+@import 'not-found-page.css';
+@import 'logout.css';
+@import 'activation.css';
+@import 'validation.css';
+@import 'home.css';
+@import 'toggle-switch.css';
+@import 'loader.css';
+
+*, *::before, *::after {
+    font-family: Gotham Rounded, sans-serif;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: hsl(200, 100%, 50%);
+    --danger: hsl(0, 100%, 50%);
+    --dark-primary: hsl(200, 100%, 35%);
+    --dark-danger: hsl(0, 100%, 35%);
+    --gray: #333333;
+    --white: #ffffff;
+    --black: #000000;
+    --custom-placeholder: rgba(140, 140, 140, 0.8);
+}
+
+html {
+    font-size: 25px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}

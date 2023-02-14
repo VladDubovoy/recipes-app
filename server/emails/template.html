@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Recipes App</title>
+        <style>
+            .email {
+                background-image: url('https://thumbs.dreamstime.com/b/asian-food-background-various-cooking-ingredients-rustic-background-top-view-banner-concept-chinese-thai-66582124.jpg');
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                display: flex;
+                height: clamp(500px, 35vw, 700px);
+            }
+
+            .email__wrapper {
+                margin: auto;
+                padding: 1rem;
+                background-color: #cccccc;
+                border-radius: 15px;
+                width: 300px;
+                font-size: 14px;
+            }
+
+            @media screen and (min-width: 1024px){
+                .email__wrapper {
+                    font-size: 16px;
+                    width: 400px;
+                }
+            }
+
+            @media screen and (min-width: 1440px){
+                .email__wrapper {
+                    font-size: 18px;
+                    width: 500px;
+                }
+            }
+
+            .email__wrapper > .email__link {
+                border: none;
+                outline: none;
+                font-weight: bold;
+                border-radius: 5px;
+                padding: 5px 20px;
+                display: inline-block;
+                cursor: pointer;
+                color: white;
+                background-color: hsl(0, 100%, 50%);
+                text-decoration: none;
+            }
+
+            .email__link:hover {
+                background-color: hsl(0, 100%, 35%);
+            }
+
+            .center {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='email'>
+            <div class="email__wrapper">
+                <h1 class="center">Recipes App &#127850;</h1>
+                <h3 class="center">Thank you for registering!</h3>
+                <p class="email__text">To verify your account, please click on the following link</p>
+                <a href={{link}} class="email__link">Activate</a>
+                <p>Best regards, your support team</p>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+.btn {
+    font-size: inherit;
+    border: none;
+    outline: none;
+    background: none;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn--primary {
+    color: white;
+    background-color: var(--primary);
+}
+
+.btn--primary:focus {
+    background-color: var(--dark-primary);
+}
+
+.btn--primary:hover,
+.wrapper.dark .btn--primary {
+    background-color: var(--dark-primary);
+}
+
+.btn--danger {
+    color: white;
+    background-color: var(--danger);
+}
+
+.btn--danger:focus {
+    background-color: var(--dark-danger);
+}
+
+.btn--danger:hover,
+.wrapper.dark .btn--danger {
+    background-color: var(--dark-danger);
+}
+
+.wrapper.dark .btn--danger:hover {
+    background-color: var(--danger);
+}
+
+.wrapper.dark .btn--primary:hover {
+    background-color: var(--primary);
+}
+
+@media screen and (max-width: 1024px) {
+    .btn {
+        font-size: 18px;
+        padding: 5px 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .btn {
+        font-size: 14px;
+    }
+}

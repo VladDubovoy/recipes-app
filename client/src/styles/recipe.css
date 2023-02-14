@@ -1,0 +1,122 @@
+.recipe {
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid var(--black);
+}
+
+.recipe:last-child {
+    padding-bottom: 10px;
+    border-bottom: none;
+}
+
+.recipe__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.recipe__title {
+    margin: 0;
+    font-size: 1.75rem;
+    white-space: break-spaces;
+    flex: 0 1 70%;
+    overflow: auto;
+}
+
+.recipe-buttons__container {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.recipe__row {
+    margin-top: 10px;
+}
+
+.recipe__label {
+    margin-right: 5px;
+}
+
+.recipe__value {
+    font-weight: 300;
+}
+
+.recipe__value--indented {
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.recipe__instructions {
+    white-space: pre-line;
+}
+
+@media screen and (max-width: 1200px) {
+    .recipe__header {
+        gap: 30px;
+    }
+
+    .recipe__title {
+        flex: 1 1 auto;
+        font-size: 30px;
+    }
+
+    .recipe-buttons__container {
+        flex: 0 1 auto;
+    }
+
+    .recipe__row {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .recipe__header {
+        gap: 24px;
+    }
+
+    .recipe__title {
+        font-size: 24px;
+    }
+
+    .recipe__row {
+        font-size: 20px;
+    }
+
+    .recipe-save-button,
+    .recipe-cancel-button {
+        position: fixed;
+        right: 0;
+        width: 100px;
+        overflow: auto;
+        text-align: center;
+    }
+
+    .recipe-save-button {
+        top: 12rem;
+    }
+
+    .recipe-cancel-button {
+        top: 14rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .recipe-save-button,
+    .recipe-cancel-button {
+        width: 80px;
+    }
+
+    .recipe__header {
+        gap: 15px;
+    }
+
+    .recipe__title {
+        font-size: 18px;
+    }
+
+    .recipe__row {
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,44 @@
+.wrapper {
+    transition: all 0.2s ease-in-out;
+    min-height: 100vh;
+}
+
+.wrapper.dark {
+    background-color: var(--gray);
+    color: var(--white);
+}
+
+.aside-bar {
+    position: fixed;
+    right: 1rem;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+@media screen and (max-width: 768px) {
+    .wrapper {
+        display: flex;
+    }
+
+    .aside-bar {
+        position: relative;
+        z-index: 0;
+        flex: 0 0 100px;
+        top: unset;
+        right: unset;
+        padding: 20px 0;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .aside-bar {
+        flex: 0 0 80px;
+    }
+}
+
+
+

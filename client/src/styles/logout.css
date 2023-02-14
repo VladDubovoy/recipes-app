@@ -1,0 +1,12 @@
+.logout {
+    font-size: 20px;
+    display: grid;
+    justify-items: end;
+    row-gap: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+    .logout__email {
+        display: none;
+    }
+}

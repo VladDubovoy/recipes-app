@@ -1,0 +1,17 @@
+.activation__container {
+    border: 1px solid var(--primary);
+    border-radius: 25px;
+    padding: 2rem;
+    width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.activation-email__container {
+    display: flex;
+    justify-content: space-around;
+}
+

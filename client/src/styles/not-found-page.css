@@ -1,0 +1,42 @@
+.not-found__container {
+    border: 1px solid var(--danger);
+    border-radius: 25px;
+    padding: 2rem;
+    width: 500px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.not-found__number {
+    color: var(--danger);
+    margin-left: 0.5rem;
+}
+
+.not-found__button {
+    font-size: 30px;
+}
+
+@media screen and (max-width: 768px) {
+    .not-found__container {
+        padding: 1rem;
+        width: 400px;
+    }
+
+    .not-found__button {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .not-found__container {
+        font-size: 20px;
+        padding: 20px;
+        width: 300px;
+    }
+
+    .not-found__button {
+        font-size: 20px;
+    }
+}
