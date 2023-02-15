@@ -30,12 +30,12 @@ const SearchBar = () => {
             <label htmlFor="search-bar" className={'search__label'}>
                 <input
                     type='search'
-                    placeholder={'-'}
+                    placeholder={' '}
                     className={'search__input'}
                     value={ value }
                     onChange={handleInputChange}
                 />
-                <span className={'search-placeholder'}>Type your recipe</span>
+                <span className={'search-placeholder'}>Search</span>
             </label>
             <button
                 className={'btn btn--primary add-button recipe-add-button'}

@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions, selectors } from "../store";
 
 const useLanguage = () => {
+    const selectedRecipeId = useSelector(selectors.getSelectedRecipeId());
     const isEng = useSelector(selectors.getLang());
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const selectedRecipeId = useSelector(selectors.getSelectedRecipeId());
-
-    useEffect(changeLanguage,[isEng, selectedRecipeId, location.pathname]);
+    useEffect( changeLanguage,[isEng, selectedRecipeId, location.pathname] );
 
     const lang = isEng ? 'en' : 'ua';
 
@@ -123,17 +122,13 @@ const useLanguage = () => {
             "en" : "Password",
             "ua" : "Пароль"
         },
-        "auth-form-email-placeholder" : {
-            "en" : "Enter your email",
-            "ua" : "Введіть вашу пошту"
-        },
-        "auth-form-pass-placeholder" : {
-            "en" : "Enter your password",
-            "ua" : "Введіть пароль"
-        },
         "search-placeholder" : {
-            "en" : "Type the recipe name",
-            "ua" : "Введіть назву рецепту"
+            "en" : "Search",
+            "ua" : "Пошук"
+        },
+        "activation-title" : {
+            "en" : "Check your inbox to verify your account",
+            "ua" : "Перевірте поштову скриньку"
         },
     };
 
@@ -143,15 +138,16 @@ const useLanguage = () => {
 
     function changeLanguage() {
         document.querySelector("title").textContent = languages["app-title"][lang];
-        for (const key in languages) {
-            let elem = document.querySelector(`.${key}`);
-            if (elem) {
-                elem.innerText = languages[key][lang];
+        for ( const key in languages ) {
+            let elements = document.querySelectorAll(`.${key}`);
+            if (elements.length === 0) {
+                continue;
             }
+            elements.forEach(element => element.innerText = languages[key][lang]);
         }
     }
 
-    return {isEng, handleToggle};
+    return { isEng, handleToggle };
 };
 
 export default useLanguage;

@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { operations, selectors } from "../store";
 import { ToastContainer } from 'react-toastify';
+import  { Language } from "../components";
 import 'react-toastify/dist/ReactToastify.css';
 
 const AppLayout = () => {
@@ -18,6 +19,7 @@ const AppLayout = () => {
 
     return (
         <>
+            { !isAuth && <Language/> }
             <Outlet/>
             <ToastContainer
                 position="top-center"

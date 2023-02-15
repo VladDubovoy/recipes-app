@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import { Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectors } from "../store";
-import { Language } from "../components";
 
 const AuthLayout = () => {
     const isAuth = useSelector(selectors.getAuth());
@@ -11,10 +10,7 @@ const AuthLayout = () => {
     }
 
     return (
-        <>
-            <Language/>
-            <Outlet/>
-        </>
+        <Outlet/>
     );
 };
 

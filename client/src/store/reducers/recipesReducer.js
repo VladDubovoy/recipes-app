@@ -4,7 +4,6 @@ const defaultState = {
     recipes: [],
     selectedRecipeId: null,
     initialRecipe: null,
-    isValid: true,
 };
 
 export const recipesReducer = (state = defaultState, action ) => {
@@ -36,11 +35,6 @@ export const recipesReducer = (state = defaultState, action ) => {
             return {
                 ...state, initialRecipe: action.payload
             }
-        case types.SET_IS_VALID:
-            return {
-                ...state, isValid: action.payload
-            }
-
         default:
             return state;
     }

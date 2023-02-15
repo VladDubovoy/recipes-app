@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 const Activation = () => {
     return (
         <div className={'activation__container'}>
-            <h2 className={'activation__title'}>Check your inbox to verify your account</h2>
+            <h2 className={'activation__title activation-title'}>Check your inbox to verify your account</h2>
             <div className={'activation-email__container'}>
                 <a href={'https://mail.google.com/'}
                    target={'_blank'}

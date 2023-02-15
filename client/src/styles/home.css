@@ -23,6 +23,11 @@
         display: flex;
     }
 
+    .wrapper.limit {
+        height: 100vh;
+        overflow: hidden;
+    }
+
     .aside-bar {
         position: relative;
         z-index: 0;

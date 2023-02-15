@@ -80,14 +80,13 @@ const checkAuth = () => async (dispatch) => {
     }
 }
 
-const changeTheme = (userTheme ) => async (dispatch) => {
+const changeTheme = ( toggledTheme ) => async (dispatch) => {
     try {
-        const response = await UserService.setTheme(userTheme);
-        console.log(response)
-        if( !response ){
-            return;
+        dispatch(actions.setTheme(toggledTheme));
+        const response = await UserService.setTheme(toggledTheme);
+        if( response.status !== 200 ){
+            dispatch(actions.setTheme(!toggledTheme));
         }
-        dispatch(actions.setTheme(response.data.isDarkTheme));
     } catch(e) {
         console.log(e.response?.data?.message);
     }
@@ -96,8 +95,7 @@ const changeTheme = (userTheme ) => async (dispatch) => {
 const getTheme = () => async (dispatch) => {
     try {
         const response = await UserService.getTheme()
-        console.log(response)
-        if( !response ) {
+        if( response.status !== 200 ){
             return;
         }
         dispatch(actions.setTheme(response.data.isDarkTheme));
@@ -118,7 +116,6 @@ const getRecipes = () => async (dispatch) => {
 const createRecipe = (recipe) => async (dispatch) => {
     try {
         const response = await RecipeService.createRecipe(recipe);
-        console.log(response);
         dispatch(actions.addRecipe(response.data))
         dispatch(actions.setRecipeId(response.data.id))
     } catch(e) {
@@ -133,11 +130,6 @@ const updateRecipeById = (recipeId, recipe) => async (dispatch, getState) => {
             pending: lang.isEng ? 'Processing...' : 'Обробка...',
             success: lang.isEng ? 'Recipe has been updated' : 'Рецепт оновлений',
         });
-        console.log(response);
-        if( !response ) {
-            toast.error('error occurred');
-            return
-        }
         dispatch(actions.updateRecipe(recipeId, response.data))
     } catch(e) {
         console.log(e.response?.data?.message);
@@ -151,7 +143,6 @@ const deleteRecipeById = (recipeId) => async (dispatch, getState) => {
             pending: lang.isEng ? 'Processing...' : 'Обробка...',
             success: lang.isEng ? 'Recipe has been deleted' : 'Рецепт видалений',
         });
-        console.log(response);
         dispatch(actions.deleteRecipe(response.data.id));
     } catch(e) {
         console.log(e.response?.data?.message);
@@ -163,7 +154,7 @@ const operations = {
     register,
     logout,
     checkAuth,
-    setTheme: changeTheme,
+    changeTheme,
     getTheme,
     getRecipes,
     createRecipe,

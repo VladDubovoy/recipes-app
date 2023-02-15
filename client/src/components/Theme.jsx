@@ -8,8 +8,9 @@ const Theme = () => {
     const isDarkTheme = useSelector(selectors.getThemeMode());
 
     const handleThemeToggle = () => {
-        dispatch(operations.setTheme(!isDarkTheme))
+        dispatch(operations.changeTheme(!isDarkTheme))
     }
+
     return (
         <ToggleSwitch
             onClick={handleThemeToggle}

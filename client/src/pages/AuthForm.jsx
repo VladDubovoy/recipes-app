@@ -1,28 +1,37 @@
-import React, { useState, memo }  from 'react';
+import React, { memo, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form"
-import { operations } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { operations, selectors } from "../store";
+import { useValidation } from "../hooks";
 
 const AuthForm = ( { type } ) => {
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const email = useRef();
+    const password = useRef();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        mode: 'onSubmit',
-        reValidateMode: "onChange",
-        shouldFocusError: true,
-    });
+    const { errors, touched, validateField, handleTouched, reset } = useValidation();
+    const isValid = useSelector(selectors.getIsValid());
 
-    function onSubmit (inputData, e) {
+    function handleChange(e) {
+        validateField(e.target.name, e.target.value);
+    }
+
+    function onSubmit (e) {
         e.preventDefault();
-        const { email, password } = inputData;
-        if (type === 'signup') {
-            dispatch(operations.register(email, password));
-        } else {
-            dispatch(operations.login(email, password));
+        validateField(email.current.name, email.current.value);
+        validateField(password.current.name, password.current.value);
+        handleTouched(email.current.name)
+        handleTouched(password.current.name)
+
+        if( !isValid ) {
+            return;
         }
+        if (type === 'signup') {
+            dispatch(operations.register(email.current.value, password.current.value));
+        } else {
+            dispatch(operations.login(email.current.value, password.current.value));
+        }
+        reset();
     }
 
     return (
@@ -31,53 +40,37 @@ const AuthForm = ( { type } ) => {
                 { type === 'signup' ? 'Sign-up form' : 'Login form' }
             </legend>
             <form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={(e) => onSubmit(e)}
                 noValidate
             >
                 <div className={'form__row'}>
                     <label htmlFor="email" className={'form__label auth-form-email'}>Email</label>
                     <input
-                        {...register("email",
-                            {
-                                required: true,
-                                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-                            })
-                        }
-                        autoComplete='true'
+                        ref={email}
                         autoFocus
-                        placeholder={'-'}
-                        className={`form__input ${errors.email ? 'danger-border' : ''}`}
+                        placeholder={'Enter your email'}
+                        className={`form__input ${errors.email && touched.email ? 'danger-border' : ''}`}
                         name={'email'}
                         id={'email'}
                         type={"text"}
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={ (e) => handleChange(e) }
+                        onBlur={ (e) => handleTouched(e.target.name) }
                     />
-                    <span className={'form__placeholder auth-form-email-placeholder'}>Enter your email</span>
-                    { errors.email && errors.email.type === "required" && <span className={'form__error'}>This field is required</span> }
-                    { errors.email && errors.email.type === "pattern" && <span className={'form__error'}>Invalid email address</span> }
+                    { errors.email && touched.email && <span className={'form__error'}>{errors.email}</span> }
                 </div>
                 <div className={'form__row'}>
                     <label htmlFor="password" className={'form__label auth-form-pass'}>Password</label>
                     <input
-                        {...register("password", {
-                            required: true,
-                            minLength: 4,
-                            maxLength: 32,
-                        })}
-                        autoComplete='true'
-                        placeholder={'-'}
-                        className={`form__input ${errors.password ? 'danger-border' : ''}`}
+                        ref={password}
+                        placeholder={'Enter your password'}
+                        className={`form__input ${errors.password && touched.password ? 'danger-border' : ''}`}
                         name={'password'}
                         id={'password'}
                         type={"password"}
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={ (e) => handleChange(e) }
+                        onBlur={ (e) => handleTouched(e.target.name) }
                     />
-                    <span className={'form__placeholder auth-form-pass-placeholder'}>Enter your password</span>
-                    { errors.password && errors.password.type === "required" && <span className={'form__error'}>This field is required</span> }
-                    { errors.password && errors.password.type === "minLength" && <span className={'form__error'}>Min length 4 letters</span> }
-                    { errors.password && errors.password.type === "maxLength" && <span className={'form__error'}>Max length isn't to exceed 32 letters</span> }
+                    { errors.password && touched.password && <span className={'form__error'}>{errors.password}</span> }
                 </div>
                 {
                     type === 'signup'

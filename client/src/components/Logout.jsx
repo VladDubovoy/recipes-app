@@ -1,13 +1,16 @@
 import React, { memo } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { operations, selectors } from "../store";
+import { useValidation } from "../hooks";
 
 const Logout = () => {
     const dispatch = useDispatch();
     const user = useSelector(selectors.getUser());
+    const { reset } = useValidation();
 
     const handleLogout = () => {
         dispatch(operations.logout());
+        reset();
     }
 
     return (

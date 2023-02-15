@@ -26,9 +26,9 @@
     color: var(--custom-placeholder);
     font-size: 16px;
     position: absolute;
-    left: 1rem;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     user-select: none;
     pointer-events: none;
 }

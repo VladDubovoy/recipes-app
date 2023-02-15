@@ -1,49 +1,70 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import actions from "../store/actions.js";
+import useLanguage from '../hooks/useLanguage';
 
 const useValidation = () => {
     const dispatch = useDispatch();
+    const { isEng } = useLanguage();
 
     const [touched, setTouched] = useState({});
     const [errors, setErrors] = useState({})
 
-    function validateErrors(e) {
-        const newErrors = { ...errors };
+    function validateField(name, inputValue) {
+        const value = inputValue.trim();
+
+        setErrors( prevState => {
+            const newErrors = { ...prevState };
 
         // Deleting this error field in order to validate it again
-        if (newErrors[e.target.name] !== undefined) {
-            delete newErrors[e.target.name];
+        if (newErrors[name] !== undefined) {
+            delete newErrors[name];
         }
-        switch(e.target.name) {
+
+        switch(name) {
             case 'name':
-                if(e.target.value.trim().length < 2) {
-                    newErrors[e.target.name] = 'Min length 2 letters';
+                if(value.length < 2) {
+                    newErrors[name] = isEng ? 'Min length 2 letters' : 'Мінімальна довжина 2 символа';
                 }
-                if(e.target.value.trim().length > 40) {
-                    newErrors[e.target.name] = 'Max Length 40 letters';
+                if(value.length > 40) {
+                    newErrors[name] = isEng ? 'Max Length 40 letters' : 'Максимльна довжина 40 символів';
+                }
+                break;
+            case 'email':
+                const emailRegex = new RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i);
+                if( !emailRegex.test(value) ) {
+                    newErrors[name] = isEng ? 'Email is not valid' : 'Введіть коректний email';
+                }
+                break;
+            case 'password':
+                if( value.length < 4 ) {
+                    newErrors[name] = isEng ? 'Min length 4 letters' : 'Мінімальна довжина паролю 4 символа';
+                }
+                if( value.length > 32 ) {
+                    newErrors[name] = isEng ? 'Max Length 32 letters' : 'Максимльна довжина паролю 32 символів';
                 }
                 break;
             default:
-                if(e.target.value.trim().length === 0) {
-                    newErrors[e.target.name] = 'This field is blank';
+                if( value.length === 0 ) {
+                    newErrors[name] = isEng ? 'This field is blank' : 'Поле не повинне бути пустим';
                 }
         }
-        setErrors(newErrors);
         dispatch(actions.setIsValid(Object.keys(newErrors).length === 0));
+        return newErrors;
+        });
     }
 
     function reset() {
         setErrors({});
         setTouched({});
-        dispatch(actions.setIsValid(true));
+        dispatch( actions.setIsValid(false) );
     }
 
-    function handleTouched(e) {
-        setTouched(prevState => ( { ...prevState, [e.target.name]: true } ));
+    function handleTouched(name) {
+        setTouched(prevState => ( { ...prevState, [name]: true } ));
     }
 
-    return { touched, errors, validateErrors, handleTouched, reset };
+    return { touched, errors, validateField, handleTouched, reset };
 };
 
 export default useValidation;

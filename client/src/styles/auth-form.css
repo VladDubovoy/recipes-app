@@ -32,23 +32,13 @@
     outline-color: var(--danger);
 }
 
+.form__input::placeholder {
+    padding: 5px;
+    font-size: 14px;
+}
+
 .form__input:focus {
     outline-color: var(--dark-primary);
-}
-
-.form__placeholder {
-    position: absolute;
-    user-select: none;
-    pointer-events: none;
-    left: 38%;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: var(--custom-placeholder);
-}
-
-.form__input:not(:placeholder-shown) + .form__placeholder {
-    display: none;
 }
 
 .link-hint {

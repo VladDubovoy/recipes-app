@@ -1,5 +1,5 @@
 const getRecipes = () => state => state.recipes.recipes;
-const getIsValid = () => state => state.recipes.isValid;
+const getIsValid = () => state => state.form.isValid;
 const getInitialRecipe = () => state => state.recipes.initialRecipe;
 const getSelectedRecipeId = () => state => state.recipes.selectedRecipeId;
 const getSelectedRecipe = () => state => state.recipes.recipes.find(recipe => recipe.id === state.recipes.selectedRecipeId);

@@ -8,7 +8,7 @@ import { useValidation } from "../hooks";
 const RecipeEdit = () => {
     const dispatch = useDispatch();
     const selectedRecipe = useSelector(selectors.getSelectedRecipe());
-    const { errors, touched, validateErrors, handleTouched } = useValidation();
+    const { errors, touched, validateField, handleTouched } = useValidation();
     const isValid = useSelector(selectors.getIsValid());
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const RecipeEdit = () => {
     // We set 'Redux state' with an updated recipe
     function handleChange(e, changes) {
         dispatch(actions.updateRecipe(selectedRecipe.id, {...selectedRecipe, ...changes}))
-        validateErrors(e);
+        validateField(e.target.name, e.target.value);
     }
 
     function handleIngredientAdd(){
@@ -37,7 +37,7 @@ const RecipeEdit = () => {
         dispatch(operations.updateRecipeById( selectedRecipe.id,  body));
     }
 
-    function handleKeyboard (e ) {
+    function handleKeyboard (e) {
         if (e.key === "Escape") {
             updateRecipe()
         }
@@ -58,7 +58,7 @@ const RecipeEdit = () => {
         <div className={'recipe-edit'}>
             <div className={'recipe-edit__remove-button-container'}>
                 <button
-                    className={'btn recipe-edit__remove-button'}
+                    className={'btn recipe-edit__close-button'}
                     onClick={ updateRecipe }>
                     &times;
                 </button>
@@ -76,7 +76,7 @@ const RecipeEdit = () => {
                             id='name'
                             value={selectedRecipe.name}
                             onChange={ (e) => handleChange(e, { name: e.target.value }) }
-                            onBlur={(e) => handleTouched(e)}
+                            onBlur={(e) => handleTouched(e.target.name)}
                             name='name'
                             className={`recipe-edit__input ${errors.name && touched.name ? 'danger-border' : ''}`}
                         />
@@ -93,7 +93,7 @@ const RecipeEdit = () => {
                             id='cookTime'
                             value={selectedRecipe.cookTime}
                             onChange={ (e) => handleChange(e, { cookTime: e.target.value }) }
-                            onBlur={(e) => handleTouched(e)}
+                            onBlur={(e) => handleTouched(e.target.name)}
                             name='cookTime'
                             className={`recipe-edit__input ${errors.cookTime && touched.cookTime ? 'danger-border' : ''}`}
                         />
@@ -110,7 +110,7 @@ const RecipeEdit = () => {
                             id="instructions"
                             value={selectedRecipe.instructions}
                             onChange={ (e) => handleChange(e, { instructions: e.target.value }) }
-                            onBlur={(e) => handleTouched(e)}
+                            onBlur={(e) => handleTouched(e.target.name)}
                             cols="30"
                             rows="10"
                             className={`recipe-edit__input ${errors.instructions && touched.instructions ? 'danger-border' : ''}`}
@@ -123,7 +123,7 @@ const RecipeEdit = () => {
                 <div className={'recipe-edit__ingredient-grid'}>
                     <div className={'recipe-ingredient-edit-name'}>Name</div>
                     <div className={'recipe-ingredient-edit-amount'}>Amount</div>
-                    <div></div>
+                    <div className={'recipe-ingredient-edit-blank'}></div>
                     { selectedRecipe.ingredients.map(ingredient => (
                         <RecipeIngredientEdit
                             key={ingredient.id}

@@ -16,7 +16,7 @@ $api.interceptors.request.use((config) => {
 $api.interceptors.response.use((config) => {
     return config;
 }, (error) => {
-    if (error.response.status !== 401) {
+    if (error.response?.status !== 401) {
         toast.error(error.response?.data?.message ?? 'Request failed');
     }
     throw error;
@@ -27,7 +27,7 @@ $api.interceptors.response.use((config) => {
 }, async (error) => {
     console.log(error)
     const originalRequest = error.config;
-    if (error.response.status === 401 && error.config && !error.config._isRetry) {
+    if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
         originalRequest._isRetry = true;
         const response = await axios.get(`${API_URL}/refresh`, {
             withCredentials: true,
