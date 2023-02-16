@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { Route, Routes } from "react-router-dom";
 import '../styles/app.css';
 import { AuthForm, NotFoundPage, Home } from "../pages";
-import { RequireAuth,  } from '../components';
+import { RequireAuth } from '../components';
 import { AppLayout, AuthLayout } from "../layouts";
 
 function App() {

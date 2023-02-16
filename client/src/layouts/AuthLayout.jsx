@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectors } from "../store";
+import { NotFoundPage } from "../pages";
 
 const AuthLayout = () => {
     const isAuth = useSelector(selectors.getAuth());
     if ( isAuth ) {
-        return <Navigate to={'/'}/>
+        return <NotFoundPage/>;
     }
 
     return (
