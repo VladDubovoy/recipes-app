@@ -1,7 +1,7 @@
 import types from "../types.js";
 
 const defaultState = {
-    isValid: false,
+    isValid: true,
 }
 
 export const formReducer = (state = defaultState, action ) => {

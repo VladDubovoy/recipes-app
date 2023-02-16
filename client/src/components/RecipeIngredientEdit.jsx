@@ -8,13 +8,13 @@ import { useLanguage, useValidation } from "../hooks";
 const RecipeIngredientEdit = ( { ingredient } ) => {
     const dispatch = useDispatch();
     const selectedRecipe = useSelector(selectors.getSelectedRecipe());
-    const { errors, touched, handleTouched, validateField } = useValidation();
+    const { errors, touched, handleTouched, validateForm } = useValidation();
     const isValid = useSelector(selectors.getIsValid());
     const { isEng } = useLanguage();
 
     function handleChange(e, changes) {
         handleIngredientChange( ingredient.id, {...ingredient, ...changes} );
-        validateField(e.target.name, e.target.value);
+        validateForm( { [e.target.name]: e.target.value } );
     }
 
     function handleIngredientDelete(id) {
@@ -52,7 +52,7 @@ const RecipeIngredientEdit = ( { ingredient } ) => {
                     className={`recipe-edit__input ${errors[`ingredient-${ingredient.id}`] && touched[`ingredient-${ingredient.id}`] ? 'danger-border' : ''}`}
                     value={ ingredient.name }
                     onChange={ (e) => handleChange( e, { name: e.target.value } ) }
-                    onBlur={(e) => handleTouched(e.target.name)}
+                    onBlur={ (e) => handleTouched(e.target.name) }
                 />
                 { errors[`ingredient-${ingredient.id}`] && touched[`ingredient-${ingredient.id}`] && <span className={'form__error'}>{errors[`ingredient-${ingredient.id}`]}</span> }
             </div>
@@ -63,7 +63,7 @@ const RecipeIngredientEdit = ( { ingredient } ) => {
                     className={`recipe-edit__input ${errors[`amount-${ingredient.id}`] && touched[`amount-${ingredient.id}`] ? 'danger-border' : ''}`}
                     value={ ingredient.amount }
                     onChange={ (e) => handleChange( e, { amount: e.target.value } ) }
-                    onBlur={(e) => handleTouched(e.target.name)}
+                    onBlur={ (e) => handleTouched(e.target.name) }
                 />
                 { errors[`amount-${ingredient.id}`] && touched[`amount-${ingredient.id}`] && <span className={'form__error'}>{errors[`amount-${ingredient.id}`]}</span> }
             </div>

@@ -8,7 +8,7 @@ import { useValidation } from "../hooks";
 const RecipeEdit = () => {
     const dispatch = useDispatch();
     const selectedRecipe = useSelector(selectors.getSelectedRecipe());
-    const { errors, touched, validateField, handleTouched } = useValidation();
+    const { errors, touched, validateForm, handleTouched } = useValidation();
     const isValid = useSelector(selectors.getIsValid());
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const RecipeEdit = () => {
     // We set 'Redux state' with an updated recipe
     function handleChange(e, changes) {
         dispatch(actions.updateRecipe(selectedRecipe.id, {...selectedRecipe, ...changes}))
-        validateField(e.target.name, e.target.value);
+        validateForm( { [e.target.name]: e.target.value } );
     }
 
     function handleIngredientAdd(){

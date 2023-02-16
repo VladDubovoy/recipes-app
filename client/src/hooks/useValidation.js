@@ -10,11 +10,8 @@ const useValidation = () => {
     const [touched, setTouched] = useState({});
     const [errors, setErrors] = useState({})
 
-    function validateField(name, inputValue) {
+    function validateField(name, inputValue, newErrors) {
         const value = inputValue.trim();
-
-        setErrors( prevState => {
-            const newErrors = { ...prevState };
 
         // Deleting this error field in order to validate it again
         if (newErrors[name] !== undefined) {
@@ -23,10 +20,10 @@ const useValidation = () => {
 
         switch(name) {
             case 'name':
-                if(value.length < 2) {
+                if( value.length < 2 ) {
                     newErrors[name] = isEng ? 'Min length 2 letters' : 'Мінімальна довжина 2 символа';
                 }
-                if(value.length > 40) {
+                if( value.length > 40 ) {
                     newErrors[name] = isEng ? 'Max Length 40 letters' : 'Максимльна довжина 40 символів';
                 }
                 break;
@@ -49,22 +46,41 @@ const useValidation = () => {
                     newErrors[name] = isEng ? 'This field is blank' : 'Поле не повинне бути пустим';
                 }
         }
-        dispatch(actions.setIsValid(Object.keys(newErrors).length === 0));
-        return newErrors;
-        });
+        return newErrors
+    }
+
+    function validateForm(values) {
+        const entries = Object.entries(values);
+
+        const validatedErrors = entries.reduce((total, item) => {
+            const [name, value] = item;
+            return validateField(name, value, total);
+        }, {...errors})
+        setErrors(validatedErrors);
+        const isValid = Object.keys(validatedErrors).length === 0;
+        dispatch( actions.setIsValid(isValid) );
+        return isValid;
     }
 
     function reset() {
         setErrors({});
         setTouched({});
-        dispatch( actions.setIsValid(false) );
+        dispatch( actions.setIsValid(true) );
+    }
+
+    function touchForm(values) {
+        const touched = Object.keys(values).reduce((total, key) => {
+            total[key] = true;
+            return total;
+        }, {});
+        setTouched( touched );
     }
 
     function handleTouched(name) {
         setTouched(prevState => ( { ...prevState, [name]: true } ));
     }
 
-    return { touched, errors, validateField, handleTouched, reset };
+    return { touched, errors, handleTouched, touchForm, reset, validateForm };
 };
 
 export default useValidation;

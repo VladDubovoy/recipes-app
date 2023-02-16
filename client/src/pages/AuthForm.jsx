@@ -1,35 +1,38 @@
-import React, { memo, useRef } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { operations, selectors } from "../store";
 import { useValidation } from "../hooks";
 
 const AuthForm = ( { type } ) => {
+    const { errors, touched, validateForm, touchForm, reset, handleTouched } = useValidation();
     const dispatch = useDispatch();
-    const email = useRef();
-    const password = useRef();
-
-    const { errors, touched, validateField, handleTouched, reset } = useValidation();
     const isValid = useSelector(selectors.getIsValid());
+    const [values, setValues] = useState({
+        email: '',
+        password: '',
+    });
+
+    useEffect(() => {
+        validateForm(values);
+    }, [values.email, values.password])
 
     function handleChange(e) {
-        validateField(e.target.name, e.target.value);
+        setValues((prevState) => ( { ...prevState, [e.target.name]: e.target.value } ) );
     }
 
-    function onSubmit (e) {
+    function onSubmit(e) {
         e.preventDefault();
-        validateField(email.current.name, email.current.value);
-        validateField(password.current.name, password.current.value);
-        handleTouched(email.current.name)
-        handleTouched(password.current.name)
+        touchForm(values);
+        validateForm(values);
 
         if( !isValid ) {
             return;
         }
         if (type === 'signup') {
-            dispatch(operations.register(email.current.value, password.current.value));
+            dispatch(operations.register(values.email, values.password));
         } else {
-            dispatch(operations.login(email.current.value, password.current.value));
+            dispatch(operations.login(values.email, values.password));
         }
         reset();
     }
@@ -46,7 +49,6 @@ const AuthForm = ( { type } ) => {
                 <div className={'form__row'}>
                     <label htmlFor="email" className={'form__label auth-form-email'}>Email</label>
                     <input
-                        ref={email}
                         autoFocus
                         placeholder={'Enter your email'}
                         className={`form__input ${errors.email && touched.email ? 'danger-border' : ''}`}
@@ -61,7 +63,6 @@ const AuthForm = ( { type } ) => {
                 <div className={'form__row'}>
                     <label htmlFor="password" className={'form__label auth-form-pass'}>Password</label>
                     <input
-                        ref={password}
                         placeholder={'Enter your password'}
                         className={`form__input ${errors.password && touched.password ? 'danger-border' : ''}`}
                         name={'password'}

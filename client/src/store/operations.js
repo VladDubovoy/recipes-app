@@ -1,7 +1,6 @@
 import axios from "axios";
 import { toast } from 'react-toastify';
 import actions from "./actions.js";
-import { API_URL } from "../http";
 import { UserService, AuthService, RecipeService } from "../services";
 
 const login = ( email, password ) => async (dispatch, getState) =>  {
@@ -65,7 +64,7 @@ const logout = () => async (dispatch, getState) => {
 
 const checkAuth = () => async (dispatch) => {
     try {
-        const response = await axios.get(`${API_URL}/refresh`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/refresh`, {
             withCredentials: true,
         })
         console.log(response)

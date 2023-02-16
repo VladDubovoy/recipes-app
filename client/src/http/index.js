@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 
-export const API_URL = 'http://localhost:3000/api';
-
 const $api = axios.create({
     withCredentials: true,
-    baseURL: API_URL,
+    baseURL: import.meta.env.VITE_API_URL,
 })
 
 $api.interceptors.request.use((config) => {
@@ -29,7 +27,7 @@ $api.interceptors.response.use((config) => {
     const originalRequest = error.config;
     if (error.response.status === 401 && originalRequest && !originalRequest._isRetry) {
         originalRequest._isRetry = true;
-        const response = await axios.get(`${API_URL}/refresh`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/refresh`, {
             withCredentials: true,
         });
         console.log(response)
