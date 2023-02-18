@@ -1,8 +1,12 @@
 import React from 'react';
 
-const Loader = () => {
+const Loader = ( { overlay = false } ) => {
     return (
-        <span className="loader"></span>
+      overlay
+        ? <div className={'loader-overlay'}>
+              <span className="loader"></span>
+          </div>
+        : <span className="loader"></span>
     );
 };
 

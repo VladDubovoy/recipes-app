@@ -6,6 +6,7 @@ import { selectors } from "../store";
 const RecipeList = () => {
     const recipes =  useSelector(selectors.getRecipes());
     const searchQuery = useSelector(selectors.getSearchQuery());
+    const isLoading = useSelector(selectors.getLoading());
 
     const filteredRecipes = useMemo(() => recipes.filter(recipe => {
         return recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -15,7 +16,8 @@ const RecipeList = () => {
         <div className={'recipe-list'}>
             <SearchBar/>
             <div>
-                { filteredRecipes.map(recipe => <Recipe key={recipe.id} {...recipe}/> ) }
+                { isLoading && <Loader /> }
+                { filteredRecipes.map(recipe => <Recipe key={recipe.id} {...recipe} /> ) }
             </div>
         </div>
     );

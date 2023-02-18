@@ -130,6 +130,14 @@ const useLanguage = () => {
             "en" : "Check your inbox to verify your account",
             "ua" : "Перевірте поштову скриньку"
         },
+        "not-found__title" : {
+            "en" : "Oops! Page is not found",
+            "ua" : "Сторінка не існує"
+        },
+        "not-found__button" : {
+            "en" : "Go Home",
+            "ua" : "На головну"
+        },
     };
 
     function handleToggle() {

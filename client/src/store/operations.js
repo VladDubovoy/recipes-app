@@ -64,6 +64,7 @@ const logout = () => async (dispatch, getState) => {
 
 const checkAuth = () => async (dispatch) => {
     try {
+        dispatch(actions.setLoading(true));
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/refresh`, {
             withCredentials: true,
         })
@@ -74,6 +75,7 @@ const checkAuth = () => async (dispatch) => {
         localStorage.setItem('token', response.data.accessToken);
         dispatch(actions.setAuth(true));
         dispatch(actions.setUser(response.data.user));
+        dispatch(actions.setLoading(false));
     } catch(e) {
         console.log(e.response?.data?.message);
     }
@@ -106,7 +108,7 @@ const getTheme = () => async (dispatch) => {
 const getRecipes = () => async (dispatch) => {
     try {
         const response = await RecipeService.fetchRecipes();
-        dispatch(actions.setRecipes(response.data))
+        dispatch(actions.setRecipes(response.data));
     } catch(e) {
         console.log(e.response?.data?.message);
     }

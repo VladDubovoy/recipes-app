@@ -13,6 +13,7 @@ const REGISTER_USER = 'REGISTER_USER';
 const SET_INITIAL_RECIPE = 'SELECT_INITIAL_RECIPE';
 const SET_IS_VALID = 'SET_IS_VALID';
 const SET_LANG = 'SET_LANG';
+const SET_LOADING = 'SET_LOADING';
 
 const types = {
     SET_AUTH,
@@ -30,5 +31,6 @@ const types = {
     SET_INITIAL_RECIPE,
     SET_IS_VALID,
     SET_LANG,
+    SET_LOADING,
 }
 export default types;

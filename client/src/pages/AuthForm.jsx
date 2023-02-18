@@ -5,7 +5,7 @@ import { operations, selectors } from "../store";
 import { useValidation } from "../hooks";
 
 const AuthForm = ( { type } ) => {
-    const { errors, touched, validateForm, touchForm, reset, handleTouched } = useValidation();
+    const { errors, touched, validateForm, touchForm, handleTouched } = useValidation();
     const dispatch = useDispatch();
     const isValid = useSelector(selectors.getIsValid());
     const [values, setValues] = useState({
@@ -24,7 +24,6 @@ const AuthForm = ( { type } ) => {
     function onSubmit(e) {
         e.preventDefault();
         touchForm(values);
-        validateForm(values);
 
         if( !isValid ) {
             return;
@@ -34,7 +33,6 @@ const AuthForm = ( { type } ) => {
         } else {
             dispatch(operations.login(values.email, values.password));
         }
-        reset();
     }
 
     return (
@@ -55,6 +53,7 @@ const AuthForm = ( { type } ) => {
                         name={'email'}
                         id={'email'}
                         type={"text"}
+                        autoComplete={"email"}
                         onChange={ (e) => handleChange(e) }
                         onBlur={ (e) => handleTouched(e.target.name) }
                     />
@@ -68,6 +67,7 @@ const AuthForm = ( { type } ) => {
                         name={'password'}
                         id={'password'}
                         type={"password"}
+                        autoComplete={"current-password"}
                         onChange={ (e) => handleChange(e) }
                         onBlur={ (e) => handleTouched(e.target.name) }
                     />
@@ -80,8 +80,8 @@ const AuthForm = ( { type } ) => {
                 }
             </form>
             { type === 'signup'
-                ? <Link to={'/login'} className={'link-hint go-to-login'}>Go to login</Link>
-                : <Link to={'/signup'} className={'link-hint create-account'}>Create an account</Link>
+                ? <Link to={'/login'} className={'link-hint go-to-login'} >Go to login</Link>
+                : <Link to={'/signup'} className={'link-hint create-account'} >Create an account</Link>
             }
         </fieldset>
     );

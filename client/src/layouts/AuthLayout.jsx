@@ -1,18 +1,31 @@
-import React, { memo } from 'react';
-import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectors } from "../store";
-import { NotFoundPage } from "../pages";
+import React, { useLayoutEffect } from 'react';
+import { Navigate, Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { operations, selectors } from "../store";
+import { Loader } from "../components";
 
 const AuthLayout = () => {
     const isAuth = useSelector(selectors.getAuth());
+    const isLoading = useSelector(selectors.getLoading());
+    const dispatch = useDispatch();
+
+    useLayoutEffect(() => {
+        if ( localStorage.getItem('token') ) {
+            dispatch(operations.checkAuth());
+        }
+    }, []);
+
     if ( isAuth ) {
-        return <NotFoundPage/>;
+        return <Navigate to={'/'} replace={ true } />
     }
 
     return (
-        <Outlet/>
+        <>
+            <Outlet/>
+            { isLoading && <Loader overlay={ true } /> }
+        </>
+
     );
 };
 
-export default memo(AuthLayout);
+export default AuthLayout;

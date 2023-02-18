@@ -8,6 +8,7 @@ const getThemeMode = () => state => state.theme.isDarkTheme;
 const getAuth = () => state => state.auth.isAuth;
 const getUser = () => state => state.auth.user;
 const getLang = () => state => state.lang.isEng;
+const getLoading = () => state => state.loader.isLoading;
 
 const selectors = {
     getRecipes,
@@ -20,6 +21,7 @@ const selectors = {
     getUser,
     getIsValid,
     getLang,
+    getLoading,
 }
 
 export default selectors;

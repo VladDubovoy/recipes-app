@@ -1,3 +1,10 @@
+.loader-overlay {
+    background-color: rgba(0,0,0, 0.5);
+    position: absolute;
+    z-index: 100;
+    inset: 0;
+}
+
 .loader {
     width: 48px;
     height: 48px;
@@ -5,14 +12,17 @@
     border-radius: 50%;
     display: inline-block;
     position: fixed;
+    z-index: 2;
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
 }
+
 .loader::after {
     content: '';
+    z-index: 2;
     box-sizing: border-box;
     position: absolute;
     left: 50%;
@@ -22,13 +32,14 @@
     height: 56px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-bottom-color: #FF3D00;
+    border-bottom-color: var(--danger);
 }
 
 @keyframes rotation {
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }

@@ -14,9 +14,9 @@ function App() {
                     <Route path={'/signup'} element={ <AuthForm type={'signup'} /> } />
                 </Route>
                 <Route path={'/'} element={ <RequireAuth/> }>
-                    <Route index element={<Home/>} />
+                    <Route index element={ <Home/> } />
                 </Route>
-                <Route path={'*'} element={<NotFoundPage/> }/>
+                <Route path={'*'} element={ <NotFoundPage/> }/>
             </Route>
         </Routes>
     );

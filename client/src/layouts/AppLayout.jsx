@@ -1,25 +1,18 @@
-import React, { useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import { Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { operations, selectors } from "../store";
+import { useSelector } from "react-redux";
+import { selectors } from "../store";
 import { ToastContainer } from 'react-toastify';
-import  { Language } from "../components";
+import { Language } from "../components";
 import 'react-toastify/dist/ReactToastify.css';
 
 const AppLayout = () => {
-    const dispatch = useDispatch();
     const isDarkTheme = useSelector(selectors.getThemeMode());
     const isAuth = useSelector(selectors.getAuth());
-
-    useEffect(() => {
-        if ( localStorage.getItem('token') ) {
-            dispatch(operations.checkAuth());
-        }
-    }, []);
+    const { isActivated } = useSelector(selectors.getUser());
 
     return (
         <>
-            { !isAuth && <Language/> }
             <Outlet/>
             <ToastContainer
                 position="top-center"
@@ -28,6 +21,7 @@ const AppLayout = () => {
                 pauseOnHover
                 theme={ isAuth && isDarkTheme ? "dark" : "light"}
             />
+            { ( !isAuth || !isActivated ) && <Language/> }
         </>
     );
 };

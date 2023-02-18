@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useSelector } from "react-redux";
-import { Outlet, Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { selectors } from "../store";
 import { Activation } from "../pages";
 
@@ -8,12 +8,14 @@ const RequireAuth = () => {
     const isAuth = useSelector(selectors.getAuth());
     const { isActivated } = useSelector(selectors.getUser());
 
+    if( !isAuth ) {
+        return <Navigate to={'/login'} replace={ true } />;
+    }
+
     return (
-        isAuth
-            ? isActivated
-                ? <Outlet/>
-                : <Activation/>
-            : <Navigate to={'/login'}/>
+        isActivated
+            ? <Outlet/>
+            : <Activation/>
     );
 };
 
