@@ -1,9 +1,11 @@
-import React, { memo } from "react";
+import React, { memo, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import '../styles/app.css';
-import { AuthForm, NotFoundPage, Home } from "../pages";
+import { AuthForm } from "../pages";
 import { RequireAuth } from '../components';
 import { AppLayout, AuthLayout } from "../layouts";
+const Home = lazy(() => import('../pages/Home') );
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage') );
 
 function App() {
     return (

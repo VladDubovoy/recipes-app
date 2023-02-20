@@ -1,8 +1,8 @@
-import React, { memo } from 'react';
+import React, {lazy, memo} from 'react';
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { selectors } from "../store";
-import { Activation } from "../pages";
+const Activation = lazy(() => import('../pages/Activation') );
 
 const RequireAuth = () => {
     const isAuth = useSelector(selectors.getAuth());

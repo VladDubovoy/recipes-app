@@ -75,9 +75,10 @@ const checkAuth = () => async (dispatch) => {
         localStorage.setItem('token', response.data.accessToken);
         dispatch(actions.setAuth(true));
         dispatch(actions.setUser(response.data.user));
-        dispatch(actions.setLoading(false));
     } catch(e) {
         console.log(e.response?.data?.message);
+    } finally {
+        dispatch(actions.setLoading(false));
     }
 }
 
@@ -117,8 +118,9 @@ const getRecipes = () => async (dispatch) => {
 const createRecipe = (recipe) => async (dispatch) => {
     try {
         const response = await RecipeService.createRecipe(recipe);
-        dispatch(actions.addRecipe(response.data))
-        dispatch(actions.setRecipeId(response.data.id))
+        dispatch(actions.addRecipe(response.data));
+        dispatch(actions.setRecipeId(response.data.id));
+        dispatch(actions.setInitialRecipe(response.data));
     } catch(e) {
         console.log(e.response?.data?.message);
     }
@@ -131,7 +133,7 @@ const updateRecipeById = (recipeId, recipe) => async (dispatch, getState) => {
             pending: lang.isEng ? 'Processing...' : 'Обробка...',
             success: lang.isEng ? 'Recipe has been updated' : 'Рецепт оновлений',
         });
-        dispatch(actions.updateRecipe(recipeId, response.data))
+        dispatch(actions.updateRecipe(recipeId, response.data));
     } catch(e) {
         console.log(e.response?.data?.message);
     }

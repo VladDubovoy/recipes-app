@@ -9,7 +9,6 @@ const Recipe = ( { id, name, cookTime, instructions, ingredients } ) => {
     const dispatch = useDispatch();
     const isValid = useSelector(selectors.getIsValid());
     const selectedRecipeId = useSelector(selectors.getSelectedRecipeId());
-    const selectedRecipe = useSelector(selectors.getSelectedRecipe());
     const initialRecipe = useSelector(selectors.getInitialRecipe());
     const recipes = useSelector(selectors.getRecipes());
     const { reset } = useValidation();
@@ -26,8 +25,9 @@ const Recipe = ( { id, name, cookTime, instructions, ingredients } ) => {
 
     function saveRecipe(){
         if( selectedRecipeId != null && selectedRecipeId === id && isValid ) {
+            const selectedRecipe = recipes.find(recipe => recipe.id === selectedRecipeId);
             const body = new RecipeDto(selectedRecipe);
-            dispatch(operations.updateRecipeById( selectedRecipe.id,  body));
+            dispatch(operations.updateRecipeById( selectedRecipeId,  body));
             dispatch(actions.setRecipeId( null ));
             dispatch(actions.setInitialRecipe(null ));
         }
@@ -35,7 +35,7 @@ const Recipe = ( { id, name, cookTime, instructions, ingredients } ) => {
 
     function cancelChanges(){
         if( selectedRecipeId != null && selectedRecipeId === id && initialRecipe != null ) {
-            dispatch(actions.updateRecipe(selectedRecipeId, initialRecipe));
+            dispatch(operations.updateRecipeById(selectedRecipeId, initialRecipe));
             dispatch(actions.setRecipeId( null ));
             dispatch(actions.setInitialRecipe(null ));
             reset();

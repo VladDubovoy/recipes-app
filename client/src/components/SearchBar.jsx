@@ -1,14 +1,9 @@
 import React, { memo } from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {actions, operations, selectors} from "../store";
+import { useDispatch } from "react-redux";
+import { operations } from "../store";
 
-const SearchBar = () => {
+const SearchBar = ( { value, onChange } ) => {
     const dispatch = useDispatch();
-    const value = useSelector(selectors.getSearchQuery())
-
-    function handleInputChange(e) {
-        dispatch(actions.setSearch(e.target.value))
-    }
 
     function handleRecipeAdd() {
         const newRecipe = {
@@ -33,7 +28,7 @@ const SearchBar = () => {
                     placeholder={' '}
                     className={'search__input'}
                     value={ value }
-                    onChange={handleInputChange}
+                    onChange={onChange}
                 />
                 <span className={'search-placeholder'}>Search</span>
             </label>

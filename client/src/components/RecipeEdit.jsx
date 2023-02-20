@@ -7,18 +7,25 @@ import { useValidation } from "../hooks";
 
 const RecipeEdit = () => {
     const dispatch = useDispatch();
-    const selectedRecipe = useSelector(selectors.getSelectedRecipe());
+    const recipes = useSelector(selectors.getRecipes());
+    const selectedRecipeId = useSelector(selectors.getSelectedRecipeId());
     const { errors, touched, validateForm, handleTouched } = useValidation();
     const isValid = useSelector(selectors.getIsValid());
+    const recipe = getSelectedRecipe();
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyboard)
         return () => document.removeEventListener('keydown', handleKeyboard)
     }, [])
 
+    function getSelectedRecipe(){
+        return recipes.find(recipe => recipe.id === selectedRecipeId);
+    }
+
     // We set 'Redux state' with an updated recipe
     function handleChange(e, changes) {
-        dispatch(actions.updateRecipe(selectedRecipe.id, {...selectedRecipe, ...changes}))
+        const selectedRecipe = getSelectedRecipe();
+        dispatch(actions.updateRecipe(selectedRecipeId, {...selectedRecipe, ...changes}))
         validateForm( { [e.target.name]: e.target.value } );
     }
 
@@ -31,10 +38,11 @@ const RecipeEdit = () => {
             name: '-',
             amount: '-',
         }
-        const copyRecipe = {...selectedRecipe}
-        copyRecipe.ingredients.push(newIngredient);
-        const body = new RecipeDto(copyRecipe);
-        dispatch(operations.updateRecipeById( selectedRecipe.id,  body));
+        const selectedRecipe = getSelectedRecipe();
+        const newRecipe = JSON.parse(JSON.stringify(selectedRecipe));
+        newRecipe.ingredients.push(newIngredient);
+        const body = new RecipeDto(newRecipe);
+        dispatch(operations.updateRecipeById( selectedRecipeId,  body));
     }
 
     function handleKeyboard (e) {
@@ -47,9 +55,10 @@ const RecipeEdit = () => {
         if ( !isValid ) {
             return;
         }
-
-        const body = new RecipeDto(selectedRecipe);
-        dispatch(operations.updateRecipeById( selectedRecipe.id,  body));
+        const selectedRecipe = getSelectedRecipe();
+        const newRecipe = JSON.parse(JSON.stringify(selectedRecipe));
+        const body = new RecipeDto(newRecipe);
+        dispatch(operations.updateRecipeById( selectedRecipeId,  body));
         dispatch(actions.setRecipeId( null ));
         dispatch(actions.setInitialRecipe( null ));
     }
@@ -74,7 +83,7 @@ const RecipeEdit = () => {
                         <input
                             type="text"
                             id='name'
-                            value={selectedRecipe.name}
+                            value={recipe.name}
                             onChange={ (e) => handleChange(e, { name: e.target.value }) }
                             onBlur={(e) => handleTouched(e.target.name)}
                             name='name'
@@ -91,7 +100,7 @@ const RecipeEdit = () => {
                         <input
                             type="text"
                             id='cookTime'
-                            value={selectedRecipe.cookTime}
+                            value={recipe.cookTime}
                             onChange={ (e) => handleChange(e, { cookTime: e.target.value }) }
                             onBlur={(e) => handleTouched(e.target.name)}
                             name='cookTime'
@@ -108,7 +117,7 @@ const RecipeEdit = () => {
                         <textarea
                             name="instructions"
                             id="instructions"
-                            value={selectedRecipe.instructions}
+                            value={recipe.instructions}
                             onChange={ (e) => handleChange(e, { instructions: e.target.value }) }
                             onBlur={(e) => handleTouched(e.target.name)}
                             cols="30"
@@ -124,7 +133,7 @@ const RecipeEdit = () => {
                     <div className={'recipe-ingredient-edit-name'}>Name</div>
                     <div className={'recipe-ingredient-edit-amount'}>Amount</div>
                     <div className={'recipe-ingredient-edit-blank'}></div>
-                    { selectedRecipe.ingredients.map(ingredient => (
+                    { recipe.ingredients.map(ingredient => (
                         <RecipeIngredientEdit
                             key={ingredient.id}
                             ingredient={ingredient}

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { operations, selectors } from "../store";
@@ -9,7 +9,7 @@ const AuthLayout = () => {
     const isLoading = useSelector(selectors.getLoading());
     const dispatch = useDispatch();
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if ( localStorage.getItem('token') ) {
             dispatch(operations.checkAuth());
         }

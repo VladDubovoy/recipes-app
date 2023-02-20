@@ -7,10 +7,15 @@ import { useLanguage, useValidation } from "../hooks";
 
 const RecipeIngredientEdit = ( { ingredient } ) => {
     const dispatch = useDispatch();
-    const selectedRecipe = useSelector(selectors.getSelectedRecipe());
     const { errors, touched, handleTouched, validateForm } = useValidation();
     const isValid = useSelector(selectors.getIsValid());
+    const selectedRecipeId = useSelector(selectors.getSelectedRecipeId());
     const { isEng } = useLanguage();
+
+    function getSelectedRecipe(){
+        const recipes = useSelector(selectors.getRecipes());
+        return recipes.find(recipe => recipe.id === selectedRecipeId);
+    }
 
     function handleChange(e, changes) {
         handleIngredientChange( ingredient.id, {...ingredient, ...changes} );
@@ -18,7 +23,9 @@ const RecipeIngredientEdit = ( { ingredient } ) => {
     }
 
     function handleIngredientDelete(id) {
-        const filteredIngredients = selectedRecipe.ingredients.filter(i => i.id !== id);
+        const selectedRecipe = getSelectedRecipe();
+        const newRecipe = JSON.parse(JSON.stringify(selectedRecipe));
+        const filteredIngredients = newRecipe.ingredients.filter(i => i.id !== id);
         if ( filteredIngredients.length === 0 ) {
             toast.warn(isEng ? 'Last ingredient can\'t be removed' : 'Останній інгредієнт не може бути видаленим');
             return;
@@ -27,20 +34,23 @@ const RecipeIngredientEdit = ( { ingredient } ) => {
             return;
         }
 
-        selectedRecipe.ingredients = filteredIngredients;
-        const body = new RecipeDto(selectedRecipe);
-        dispatch(operations.updateRecipeById( selectedRecipe.id,  body));
+        newRecipe.ingredients = filteredIngredients;
+        const body = new RecipeDto(newRecipe);
+        dispatch(operations.updateRecipeById( selectedRecipeId,  body));
     }
 
     function handleIngredientChange(id, ingredient) {
-        const newIngredients = [...selectedRecipe.ingredients];
-        const index = newIngredients.findIndex(i => i.id === id);
-        newIngredients[index] = ingredient;
-        handleRecipeUpdate(newIngredients);
+        const selectedRecipe = getSelectedRecipe();
+        const recipeIngredients = [...selectedRecipe.ingredients];
+        const index = recipeIngredients.findIndex(i => i.id === id);
+        recipeIngredients[index] = ingredient;
+        handleRecipeUpdate(recipeIngredients);
     }
 
-    function handleRecipeUpdate(ingredients) {
-        dispatch(actions.updateRecipe(selectedRecipe.id, { ...selectedRecipe, ingredients } ))
+    function handleRecipeUpdate(updatedIngredients) {
+        const selectedRecipe = getSelectedRecipe();
+        const updatedRecipe = { ...selectedRecipe, ingredients: updatedIngredients };
+        dispatch(actions.updateRecipe(selectedRecipeId, updatedRecipe));
     }
 
     return (
